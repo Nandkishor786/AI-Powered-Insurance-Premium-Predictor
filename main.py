@@ -6,6 +6,9 @@ from typing import Literal,Optional,Annotated
 import pandas as pd
 import pickle
 import joblib
+#to coonect the deployed frontent with deployed backend we need cors 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 #pickle and joblib are library used to load and save python object and ml models in porjects
 # 1..............................................
@@ -30,6 +33,22 @@ tier_2_cities = [
 
 app  =FastAPI()
 
+
+# Streamlit URL ya "*" (dev) add karo
+origins = [
+    "https://ai-powered-insurance-premium-predictor-mzenjse9ftcyvkt6dxwgdt.streamlit.app",
+    "https://your-custom-domain.com",  # agar koi ho
+    "http://localhost:8501",            # local testing
+    "https://localhost:8501"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # production ke liye specific origins list karo instead of "*"
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # 2........................................
 #  pydantic model to validate incomming data....
 # Literals -used where we need optional values
